@@ -31,12 +31,5 @@ jobs:
           git config user.name 'Truong Le'
           git config user.email 'travistrle@gmail.com'
           git add .
-          git commit -am "{{ github.event.client_payload.sha }}"
-          git push
-      # - name: Commit to main branch
-      #   uses: EndBug/add-and-commit@v9
-      #   with:
-      #     author_name: Truong Le
-      #     author_email: travistrle@gmail.com
-      #     message: "Update latest version"
-      #     add: "*.*"
+          git commit -m "Release: ${{ github.event.client_payload.sha }}"
+          git push origin main
