@@ -31,7 +31,7 @@ jobs:
           git config user.name 'Truong Le'
           git config user.email 'travistrle@gmail.com'
           git add .
-          git commit -am "github.event.client_payload.ref"
+          git commit -am "{{ github.event.client_payload.sha }}"
           git push
       # - name: Commit to main branch
       #   uses: EndBug/add-and-commit@v9
