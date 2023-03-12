@@ -25,9 +25,9 @@ jobs:
           path: ./customer-portal/
       - name: Install dependencies & compile
         run: cd customer-portal; npm install; npm run build;
-      - name: List latest files
-        run: ls -l
-      - run: cp -af dist/customer-portal/* ../; cd ..; rm -rf customer-portal
+      - run: ls -l
+      - run: cp -af customer-portal/dist/customer-portal/* ./; rm -rf customer-portal
+      - run: ls -l
       - name: Commit latest release
         run: |
           git config user.name 'Truong Le'
