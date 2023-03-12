@@ -1,0 +1,34 @@
+name: customer-portal-deploy workflow
+on:
+  repository_dispatch:
+    types: [main-push-event]
+jobs:
+  customerPortalMainPushEvent:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+      - run: echo ${{ github.event.client_payload.sha }}
+      - run: rm *.js; rm *.css; rm *.html; rm *.txt; rm -rf assets
+      - name: Checkout customer-portal repository
+        uses: actions/checkout@v3
+        with:
+          repository: onegridxyz/customer-portal
+          path: customer-portal
+      - name: Install dependencies & compile
+        run: cd customer-portal; npm install; npm run build; cp -af dist/customer-portal/* ../; cd ..; rm -rf customer-portal
+      - name: Commit to main branch
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Truong Le
+          author_email: travistrle@gmail.com
+          message: "Update latest version"
+          add: "*.*"
