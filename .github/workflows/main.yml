@@ -24,7 +24,10 @@ jobs:
           repository: onegridxyz/customer-portal
           path: ./customer-portal/
       - name: Install dependencies & compile
-        run: cd customer-portal; npm install; npm run build; cp -af dist/customer-portal/* ../; cd ..; rm -rf customer-portal
+        run: cd customer-portal; npm install; npm run build;
+      - name: List latest files
+        run: ls -l
+      - run: cp -af dist/customer-portal/* ../; cd ..; rm -rf customer-portal
       - name: Commit latest release
         run: |
           git config user.name 'Truong Le'
