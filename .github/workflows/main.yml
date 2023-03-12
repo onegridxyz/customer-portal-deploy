@@ -17,18 +17,25 @@ jobs:
         with:
           ref: ${{ github.event.client_payload.ref }}
       - run: echo ${{ github.event.client_payload.sha }}
-      - run: rm *.js; rm *.css; rm *.html; rm *.txt; rm -rf assets
+      - run: git rm *.js; git rm *.css; git rm *.html; git rm *.txt; git rm -rf assets
       - name: Checkout customer-portal repository
         uses: actions/checkout@v3
         with:
           repository: onegridxyz/customer-portal
-          path: customer-portal
+          path: ./customer-portal/
       - name: Install dependencies & compile
         run: cd customer-portal; npm install; npm run build; cp -af dist/customer-portal/* ../; cd ..; rm -rf customer-portal
-      - name: Commit to main branch
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: Truong Le
-          author_email: travistrle@gmail.com
-          message: "Update latest version"
-          add: "*.*"
+      - name: Commit latest release
+        run: |
+          git config user.name 'Truong Le'
+          git config user.email 'travistrle@gmail.com'
+          git add .
+          git commit -am "latest update"
+          git push
+      # - name: Commit to main branch
+      #   uses: EndBug/add-and-commit@v9
+      #   with:
+      #     author_name: Truong Le
+      #     author_email: travistrle@gmail.com
+      #     message: "Update latest version"
+      #     add: "*.*"
