@@ -14,8 +14,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.client_payload.ref }}
       - run: echo ${{ github.event.client_payload.sha }}
       - run: git rm *.js; git rm *.css; git rm *.html; git rm *.txt; git rm -rf assets
       - name: Checkout customer-portal repository
@@ -33,7 +31,7 @@ jobs:
           git config user.name 'Truong Le'
           git config user.email 'travistrle@gmail.com'
           git add .
-          git commit -am "latest update"
+          git commit -am "github.event.client_payload.ref"
           git push
       # - name: Commit to main branch
       #   uses: EndBug/add-and-commit@v9
