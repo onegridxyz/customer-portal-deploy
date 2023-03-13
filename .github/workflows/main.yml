@@ -14,6 +14,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - run: echo ${{ github.event.client_payload.sha }}
       - run: git rm *.js; git rm *.css; git rm *.html; git rm *.txt; git rm -rf assets
       - name: Checkout customer-portal repository
@@ -31,6 +33,5 @@ jobs:
           git config user.name 'Truong Le'
           git config user.email 'travistrle@gmail.com'
           git add .
-          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/onegridxyz/customer-portal-deploy.git
           git commit -m "Release: ${{ github.event.client_payload.sha }}"
           git push origin main
